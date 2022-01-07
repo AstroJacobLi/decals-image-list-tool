@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Examples come from https://github.com/yymao/decals-image-list-tool -->
 
 <html lang="en">
 <head>
@@ -107,27 +108,24 @@
 <div id="form">
 <form class="pure-form">
   <fieldset>
-    <!-- Examples come from SAGA Satellites. See https://sagasurvey.org/ -->
-    <p><textarea id="input" placeholder="Paste a list of R.A. and Decl."  required>SAGA_SAT    RA  DEC
-NGC6181b    247.8399	20.1841
-NGC6181c    248.3932	19.9461
-NGC6181d    248.0513	19.6957
-NGC6181e    247.8755	20.0948
-NGC6181f    247.8259	20.2109
-NGC6181g    248.1526	19.8095
-NGC6181h    248.5809	19.7198
-NGC6181i    248.1954	19.8670
-NGC6181j    248.2119	19.9001
-NGC6181k    248.1636	19.7923
-NGC5602b    215.4049	50.3903
-NGC5602c    215.4590	50.3884
-NGC5602d    214.8035	50.4409
-NGC5602e    215.4408	50.5062
-NGC5602f    215.5340	50.6674</textarea></p>
+    <p><textarea id="input" placeholder="Paste a list of R.A. and Decl."  required>
+      viz-id      ra        dec    
+      931  187.668276  0.7457892
+      2071 225.2647408  0.4846544
+      4032 350.2807156  1.4018211
+      4188  355.085029 -0.1462085
+      4221  30.0980674 -1.4120926
+      4363 176.3969337 -1.8543287
+      5051 150.4133053 -0.1191215
+      6675  30.2754303 -1.3742687
+      11959  128.821372 -1.6477051
+      12814  355.085259 -0.1464083
+  </textarea></p>
     <div class="options">
       <label>
         <select id="layer">
           <option disabled selected value style="display: none;"> --&gt; Choose image source &lt;-- </option>
+          <option value="hsc-dr2">Hyper Suprime-Cam (HSC) SSP DR2</option>
           <option value="ls-dr9" id="default-layer">Legacy Surveys DR9</option>
           <option value="ls-dr9-model">Legacy Surveys DR9 Model</option>
           <option value="ls-dr9-resid">Legacy Surveys DR9 Residual</option>
@@ -135,7 +133,6 @@ NGC5602f    215.5340	50.6674</textarea></p>
           <option value="unwise-cat-model">unWISE Model</option>
           <option value="sdss">SDSS (reprocessed by Legacy Surveys)</option>
           <option value="des-dr1">Dark Energy Survey (DES) DR1</option>
-          <option value="hsc-dr2">Hyper Suprime-Cam (HSC) SSP DR2</option>
           <option value="galex">GALEX</option>
           <option value="halpha">Halpha Map</option>
           <option value="sfd">SFD Dust Map</option>
@@ -158,8 +155,7 @@ NGC5602f    215.5340	50.6674</textarea></p>
     </div>
     <p class="credit">
       Images retrieved from <a href="https://www.legacysurvey.org/acknowledgment/">Legacy Surveys Sky Viewer</a>, <a href="https://skyserver.sdss.org/dr16/en/tools/chart/listinfo.aspx" title="Sloan Digital Sky Surveys">SDSS</a>, and <a href="https://archive.stsci.edu/cgi-bin/dss_form" title="Digitized Sky Survey">DSS</a>.
-      Web interface by <a href="https://yymao.github.io">Yao-Yuan Mao</a>.
-      <a href="https://github.com/yymao/decals-image-list-tool/issues">Issues?</a><br>
+      Modified by <a href="http://jiaxuanli.me/">Jiaxuan Li</a>, based on <a href="https://yymao.github.io">Yao-Yuan Mao</a>'s DECaLS image list tool.
       <i>
         <span class="warning warning-highlight">Maintainance at NERSC may affect the cutout service of the DESI Legacy Imaging Surveys.<br></span>
         <span class="warning">An <a href="https://viewer.legacysurvey.org">alternative Legacy Surveys Viewer</a> is available, but has no cutout service.<br></span>
