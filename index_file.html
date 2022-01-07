@@ -421,6 +421,7 @@ const record_output = function(){
 
 $("form").on("submit", (event) => {event.preventDefault();});
 $("#generate_output").on("click", record_output);
+$("#load_cat").on("click", run);
 $("#layer").on("input", run);
 $("#scale").on("input", run);
 $("#input").on("input", () => { _source = ""; run(); });
