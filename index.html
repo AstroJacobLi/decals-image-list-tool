@@ -35,7 +35,7 @@
   }
   #input{
     width: calc(100% - 0.8em);
-    height: 100px;
+    height: 150px;
     margin: 0 0.4em;
   }
   #layer, #scale{
@@ -71,8 +71,21 @@
     transform-origin: center;
     border: solid 8px #FFF;
   }
+  figure {
+    margin: auto;
+    padding: 0px;
+    display: inline-block;
+  }
+  figure:hover {border-color: #999; background: rgba(0,0,0,.05); }
+  figcaption {
+    font-size: 85%;
+    color: #333;
+    padding: 0px;
+    text-align: center;
+  }
+
   .marked{
-    border-color:#0078e7;
+    border-color:#e72300;
   }
   .warning{
     display: none;
@@ -125,8 +138,8 @@
       <label>
         <select id="layer">
           <option disabled selected value style="display: none;"> --&gt; Choose image source &lt;-- </option>
-          <option value="hsc-dr2">Hyper Suprime-Cam (HSC) SSP DR2</option>
-          <option value="ls-dr9" id="default-layer">Legacy Surveys DR9</option>
+          <option value="hsc-dr2" id="default-layer">Hyper Suprime-Cam (HSC) SSP DR2</option>
+          <option value="ls-dr9">Legacy Surveys DR9</option>
           <option value="ls-dr9-model">Legacy Surveys DR9 Model</option>
           <option value="ls-dr9-resid">Legacy Surveys DR9 Residual</option>
           <option value="unwise-neo6">unWISE NEO6 12um Dust Map</option>
@@ -155,7 +168,9 @@
     </div>
     <p class="credit">
       Images retrieved from <a href="https://www.legacysurvey.org/acknowledgment/">Legacy Surveys Sky Viewer</a>, <a href="https://skyserver.sdss.org/dr16/en/tools/chart/listinfo.aspx" title="Sloan Digital Sky Surveys">SDSS</a>, and <a href="https://archive.stsci.edu/cgi-bin/dss_form" title="Digitized Sky Survey">DSS</a>.
-      Modified by <a href="http://jiaxuanli.me/">Jiaxuan Li</a>, based on <a href="https://yymao.github.io">Yao-Yuan Mao</a>'s DECaLS image list tool.
+      <br />
+      Modified by <a href="http://jiaxuanli.me/">Jiaxuan Li</a>, based on <a href="https://yymao.github.io">Yao-Yuan Mao</a>'s <a href="https://github.com/yymao/decals-image-list-tool">DECaLS image list tool</a>.
+      <br />
       <i>
         <span class="warning warning-highlight">Maintainance at NERSC may affect the cutout service of the DESI Legacy Imaging Surveys.<br></span>
         <span class="warning">An <a href="https://viewer.legacysurvey.org">alternative Legacy Surveys Viewer</a> is available, but has no cutout service.<br></span>
@@ -170,9 +185,11 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cash/8.1.0/cash.min.js" integrity="sha512-sgDgZX/GgfD7qSeMjPN/oE9EQgXZJW55FIjdexVT60QerG2gAWhR9QDQEGt3O90Dy9jVcwMWsoTMhLgldIiKXw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <script type="text/javascript" src="load_img.js"></script>  -->
+
 <script>
 var nersc_is_down = false;
-var _cols, _i_ra, _i_dec, _has_mark, _delimiter, _scale, _size, _layer, _source;
+var _cols, _i_ID, _i_ra, _i_dec, _has_mark, _delimiter, _scale, _size, _layer, _source;
 
 const search_params = (new URL(document.location.href)).searchParams;
 const _use_dev = search_params.has("dev") ? "-dev" : "";
@@ -205,8 +222,8 @@ const _link_urls = {
   "dss": "https://archive.stsci.edu/cgi-bin/dss_search?v=${layer}&r=${ra}&d=${dec}&e=J2000&h=15&w=15&f=gif"
 };
 
-const _img_dom_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${img_url}' width='180' height='180' />";
-const _linked_img_template = "<a class='plink' href='${link_url}'>${img_dom}</a>";
+const _img_dom_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${img_url}' width='180' height='180'/>";
+const _linked_img_template = "<figure><a class='plink' href='${link_url}'>${img_dom}</a><figcaption>${img_id}</a></figcaption></figure>";
 const _rot_classes = ["", "r1", "r2", "r3", "r0f", "r1f", "r2f", "r3f"];
 const _default_layer = $("#default-layer").attr("value");
 
@@ -223,6 +240,11 @@ const parseHeader = function(line_raw) {
   _cols = line.split(_delimiter).map(col => col.trim());
 
   const _cols_lower = _cols.map(col => col.toLowerCase());
+
+  for (const key of ["id", "index", "ind", "idx", "indices", "viz-id"]) {
+    _i_ID = _cols_lower.indexOf(key);
+    if (_i_ID > -1) break;
+  }
   for (const key of ["ra", "r.a.", "radeg", "ra2000", "right ascension", "r"]) {
     _i_ra = _cols_lower.indexOf(key);
     if (_i_ra > -1) break;
@@ -242,6 +264,7 @@ const parseHeader = function(line_raw) {
       _i_dec = 1;
     }
     else if (_cols.length > 2){
+      _i_ID = 0;
       _i_ra = 1;
       _i_dec = 2;
     }
@@ -280,6 +303,7 @@ const addImage = function(line) {
        .replace(/\${size}/g, _size)
        .replace(/\${layer}/g, _layer)
        .replace("${title}", items.map((item, i) => (_cols[i] + " = " + item.trim())).join("\n"))
+       .replace("${img_id}", _cols[_i_ID] + "=" + items[_i_ID])
        .replace("${marked}", mark ? "marked" : "")
        .replace("${rot}", _do_rand_rot ? _rot_classes[Math.floor(Math.random()*_rot_classes.length)] : "");
   $(out).appendTo(document.getElementById("list"));
@@ -382,7 +406,7 @@ if (search_params.get("input")) { $("#input").val(search_params.get("input")); }
 
 if (_select_layer || search_params.get("input")){ run(true); }
 else { document.getElementById("layer").focus(); }
-
 </script>
+
 </body>
 </html>
