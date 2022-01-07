@@ -239,7 +239,7 @@ const escapeHtml = function(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-function loadFile(filePath) {
+const loadFile = function(filePath) {
   var result = null;
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET", filePath, false);
@@ -344,9 +344,10 @@ const run = function() {
   _scale = (parseFloat($("#scale").val()) / 3).toFixed(7).replace(/0+$/, '');
   if (!layer_source[0]) $("#default-layer").prop("selected", true);
 
+  const _file_path = $("#catdir").val().replace("/tigress/jiaxuanl/public_html/", "/~jiaxuanl/")
+
   if ((current_source != _source) || (!current_layer) || (!current_scale) || (!current_size) || $(".pic").length == 0){
-    var lines = escapeHtml($("#input").val()).trim().split(/\n/);
-    var lines = escapeHtml(loadFile($("#catdir")).val()).trim().split(/\n/);
+    var lines = escapeHtml(loadFile(_file_path)).trim().split(/\n/);
     const has_header = parseHeader(lines[0]);
     if (has_header == -1) return;
     if (has_header) lines.shift();
