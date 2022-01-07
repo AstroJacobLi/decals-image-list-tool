@@ -121,6 +121,13 @@
 <div id="form">
 <form class="pure-form">
   <fieldset>
+      <input type="text" id="catdir" class="pure-input-2-3" value="/tigress/jiaxuanl/public_html/decals-image-list-tool/udg_z002_004.txt" required/>
+      <button type="load_cat" class="pure-button pure-button-primary">Load Catalog</button>
+  </fieldset>
+</form>
+
+<form class="pure-form">
+  <fieldset>
     <p><textarea id="input" placeholder="Paste a list of R.A. and Decl."  required>
       viz-id      ra        dec    
       931  187.668276  0.7457892
@@ -135,6 +142,12 @@
       12814  355.085259 -0.1464083
   </textarea></p>
     <div class="options">
+      <label>
+        <select id="input_source">
+          <option value="file" id="default-source">From Catalog</option>
+          <option value="textbox">From Input Box</option>
+        </select>
+      </label>
       <label>
         <select id="layer">
           <option disabled selected value style="display: none;"> --&gt; Choose image source &lt;-- </option>
@@ -231,6 +244,17 @@ const escapeHtml = function(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+const loadFile = function(filePath) {
+  var result = null;
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", filePath, false);
+  xmlhttp.send();
+  if (xmlhttp.status==200) {
+    result = xmlhttp.responseText;
+  }
+  return result;
+}
+
 const parseHeader = function(line_raw) {
   const line = line_raw.trim();
   var has_header = true;
@@ -325,8 +349,17 @@ const run = function() {
   _scale = (parseFloat($("#scale").val()) / 3).toFixed(7).replace(/0+$/, '');
   if (!layer_source[0]) $("#default-layer").prop("selected", true);
 
+  const _file_path = $("#catdir").val().replace("/tigress/jiaxuanl/public_html/", "/~jiaxuanl/")
+  const _input_from_file = ($("#input_source").val() == "file");
+
   if ((current_source != _source) || (!current_layer) || (!current_scale) || (!current_size) || $(".pic").length == 0){
+    if (_input_from_file){
+      var lines = escapeHtml(loadFile(_file_path)).trim().split(/\n/);
+      $("#input").val(escapeHtml(loadFile(_file_path)).trim())
+    }
+    
     var lines = escapeHtml($("#input").val()).trim().split(/\n/);
+    
     const has_header = parseHeader(lines[0]);
     if (has_header == -1) return;
     if (has_header) lines.shift();
@@ -388,6 +421,7 @@ const record_output = function(){
 
 $("form").on("submit", (event) => {event.preventDefault();});
 $("#generate_output").on("click", record_output);
+$("#load_cat").on("click", run);
 $("#layer").on("input", run);
 $("#scale").on("input", run);
 $("#input").on("input", () => { _source = ""; run(); });
