@@ -1,5 +1,5 @@
 var nersc_is_down = false;
-var _cols, _i_ra, _i_dec, _has_mark, _delimiter, _scale, _size, _layer, _source;
+var _cols, _i_ID, _i_ra, _i_dec, _has_mark, _delimiter, _scale, _size, _layer, _source;
 
 const search_params = (new URL(document.location.href)).searchParams;
 const _use_dev = search_params.has("dev") ? "-dev" : "";
@@ -32,13 +32,24 @@ const _link_urls = {
   "dss": "https://archive.stsci.edu/cgi-bin/dss_search?v=${layer}&r=${ra}&d=${dec}&e=J2000&h=15&w=15&f=gif"
 };
 
-const _img_dom_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${img_url}' width='180' height='180' />";
-const _linked_img_template = "<a class='plink' href='${link_url}'>${img_dom}</a>";
+const _img_dom_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${img_url}' width='180' height='180'/>";
+const _linked_img_template = "<figure><a class='plink' href='${link_url}'>${img_dom}</a><figcaption>${img_id}</a></figcaption></figure>";
 const _rot_classes = ["", "r1", "r2", "r3", "r0f", "r1f", "r2f", "r3f"];
 const _default_layer = $("#default-layer").attr("value");
 
 const escapeHtml = function(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+const loadFile = function(filePath) {
+  var result = null;
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", filePath, false);
+  xmlhttp.send();
+  if (xmlhttp.status==200) {
+    result = xmlhttp.responseText;
+  }
+  return result;
 }
 
 const parseHeader = function(line_raw) {
@@ -50,6 +61,11 @@ const parseHeader = function(line_raw) {
   _cols = line.split(_delimiter).map(col => col.trim());
 
   const _cols_lower = _cols.map(col => col.toLowerCase());
+
+  for (const key of ["id", "index", "ind", "idx", "indices", "viz-id"]) {
+    _i_ID = _cols_lower.indexOf(key);
+    if (_i_ID > -1) break;
+  }
   for (const key of ["ra", "r.a.", "radeg", "ra2000", "right ascension", "r"]) {
     _i_ra = _cols_lower.indexOf(key);
     if (_i_ra > -1) break;
@@ -69,6 +85,7 @@ const parseHeader = function(line_raw) {
       _i_dec = 1;
     }
     else if (_cols.length > 2){
+      _i_ID = 0;
       _i_ra = 1;
       _i_dec = 2;
     }
@@ -107,6 +124,7 @@ const addImage = function(line) {
        .replace(/\${size}/g, _size)
        .replace(/\${layer}/g, _layer)
        .replace("${title}", items.map((item, i) => (_cols[i] + " = " + item.trim())).join("\n"))
+       .replace("${img_id}", _cols[_i_ID] + "=" + items[_i_ID])
        .replace("${marked}", mark ? "marked" : "")
        .replace("${rot}", _do_rand_rot ? _rot_classes[Math.floor(Math.random()*_rot_classes.length)] : "");
   $(out).appendTo(document.getElementById("list"));
@@ -128,8 +146,17 @@ const run = function() {
   _scale = (parseFloat($("#scale").val()) / 3).toFixed(7).replace(/0+$/, '');
   if (!layer_source[0]) $("#default-layer").prop("selected", true);
 
+  const _file_path = $("#catdir").val().replace("/tigress/jiaxuanl/public_html/", "/~jiaxuanl/")
+  const _input_from_file = ($("#input_source").val() == "file");
+
   if ((current_source != _source) || (!current_layer) || (!current_scale) || (!current_size) || $(".pic").length == 0){
+    if (_input_from_file){
+      var lines = escapeHtml(loadFile(_file_path)).trim().split(/\n/);
+      $("#input").val(escapeHtml(loadFile(_file_path)).trim())
+    }
+    
     var lines = escapeHtml($("#input").val()).trim().split(/\n/);
+    
     const has_header = parseHeader(lines[0]);
     if (has_header == -1) return;
     if (has_header) lines.shift();
@@ -191,6 +218,7 @@ const record_output = function(){
 
 $("form").on("submit", (event) => {event.preventDefault();});
 $("#generate_output").on("click", record_output);
+$("#load_cat").on("click", run);
 $("#layer").on("input", run);
 $("#scale").on("input", run);
 $("#input").on("input", () => { _source = ""; run(); });
