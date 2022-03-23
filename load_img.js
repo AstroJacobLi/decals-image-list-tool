@@ -22,18 +22,20 @@ if (!_select_layer && $("#layer > option[value='" + _select_layer + "']").length
 const _image_urls = {
   "desi": "https://www.legacysurvey.org/viewer" + _use_dev + "/cutout.jpg?ra=${ra}&dec=${dec}&pixscale=${scale}&layer=${layer}&size=180",
   "sdss": "https://skyserver.sdss.org/dr17/SkyServerWS/ImgCutout/getjpeg?ra=${ra}&dec=${dec}&scale=${scale}&width=180&height=180",
-  "dss": "https://archive.stsci.edu/cgi-bin/dss_search?v=${layer}&r=${ra}&d=${dec}&e=J2000&h=${size}&w=${size}&f=gif"
+  "dss": "https://archive.stsci.edu/cgi-bin/dss_search?v=${layer}&r=${ra}&d=${dec}&e=J2000&h=${size}&w=${size}&f=gif",
+  "merian": "https://tigress-web.princeton.edu/~jiaxuanl/COSMOS/cosmos-udg/cosmos_${img_id}_cutout.png"
 };
 
 const _link_urls = {
   "desi": "https://www.legacysurvey.org/viewer" + _use_dev + "?ra=${ra}&dec=${dec}&layer=${layer}&zoom=14",
+  "merian": "https://www.legacysurvey.org/viewer" + _use_dev + "?ra=${ra}&dec=${dec}&layer=${layer}&zoom=14",
   "sdss": "https://skyserver.sdss.org/dr17/VisualTools/navi?ra=${ra}&dec=${dec}",
   "desi-alt": "https://viewer.legacysurvey.org/?ra=${ra}&dec=${dec}&layer=${layer}&zoom=14",
   "dss": "https://archive.stsci.edu/cgi-bin/dss_search?v=${layer}&r=${ra}&d=${dec}&e=J2000&h=15&w=15&f=gif"
 };
 
 const _img_dom_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${img_url}' width='180' height='180'/>";
-const _linked_img_template = "<figure><a class='plink' href='${link_url}'>${img_dom}</a><figcaption>${img_id}</a></figcaption></figure>";
+const _linked_img_template = "<figure><a class='plink' href='${link_url}'>${img_dom}</a><figcaption>${img_caption}</a></figcaption></figure>";
 const _rot_classes = ["", "r1", "r2", "r3", "r0f", "r1f", "r2f", "r3f"];
 const _default_layer = $("#default-layer").attr("value");
 
@@ -118,13 +120,14 @@ const addImage = function(line) {
        .replace("${img_dom}", _img_dom_template)
        .replace("${link_url}", _link_urls[_source])
        .replace("${img_url}", _image_urls[_source])
+       .replace("${img_id}", items[_i_ID])
        .replace(/\${ra}/g, parseFloat(items[_i_ra]).toString())
        .replace(/\${dec}/g, parseFloat(items[_i_dec]).toString())
        .replace(/\${scale}/g, _scale)
        .replace(/\${size}/g, _size)
        .replace(/\${layer}/g, _layer)
        .replace("${title}", items.map((item, i) => (_cols[i] + " = " + item.trim())).join("\n"))
-       .replace("${img_id}", _cols[_i_ID] + "=" + items[_i_ID])
+       .replace("${img_caption}", _cols[_i_ID] + "=" + items[_i_ID])
        .replace("${marked}", mark ? "marked" : "")
        .replace("${rot}", _do_rand_rot ? _rot_classes[Math.floor(Math.random()*_rot_classes.length)] : "");
   $(out).appendTo(document.getElementById("list"));
