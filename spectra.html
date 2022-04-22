@@ -116,6 +116,27 @@
     #list{ width: 1000px;}
   }
 
+  .column_spec {
+    flex: 66.66%;
+    padding: 3px;
+  }
+
+  .column_img {
+    flex: 33.33%;
+    padding: 3px;
+  }
+  
+  .row {
+    display: flex;
+    margin-left: 2%;
+  }
+  /* Clear floats after image containers */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
   /* The alert message box */
   .alert {
     padding: 20px;
@@ -141,7 +162,7 @@
   .closebtn:hover {
     color: black;
   }
-  
+
   </style>
 </head>
 
@@ -150,7 +171,7 @@
 <div id="form">
 <form class="pure-form">
   <fieldset>
-      <input type="text" id="catdir" class="pure-input-2-3" value="/magellan_spec/viz_cat.txt" required/>
+      <input type="text" id="catdir" class="pure-input-2-3" value="/magellan_spec/viz_cat_0p04_0p12.txt" required/>
       <button class="pure-button pure-button-primary" id="load_cat">Load Catalog</button>
   </fieldset>
 </form>
@@ -222,6 +243,7 @@
 <div id="list"></div>
 </div>
 
+
 <center>
 <p class="credit">
   Images retrieved from <a href="https://www.legacysurvey.org/acknowledgment/">Legacy Surveys Sky Viewer</a>, <a href="https://skyserver.sdss.org/dr16/en/tools/chart/listinfo.aspx" title="Sloan Digital Sky Surveys">SDSS</a>, and <a href="https://archive.stsci.edu/cgi-bin/dss_form" title="Digitized Sky Survey">DSS</a>.
@@ -240,7 +262,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cash/8.1.0/cash.min.js" integrity="sha512-sgDgZX/GgfD7qSeMjPN/oE9EQgXZJW55FIjdexVT60QerG2gAWhR9QDQEGt3O90Dy9jVcwMWsoTMhLgldIiKXw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   var nersc_is_down = false;
-  var _cols, _i_ID, _i_ra, _i_dec, _has_mark, _delimiter, _scale, _size, _layer, _source;
+  var _cols, _i_ID, _i_ra, _i_dec, _i_redshift, _i_re, _has_mark, _delimiter, _scale, _size, _layer, _source;
   
   const search_params = (new URL(document.location.href)).searchParams;
   const _use_dev = search_params.has("dev") ? "-dev" : "";
@@ -274,11 +296,16 @@
     "desi-alt": "https://viewer.legacysurvey.org/?ra=${ra}&dec=${dec}&layer=${layer}&zoom=14",
     "dss": "https://archive.stsci.edu/cgi-bin/dss_search?v=${layer}&r=${ra}&d=${dec}&e=J2000&h=15&w=15&f=gif"
   };
+
+  const _spec_urls = {
+    "merian": "https://tigress-web.princeton.edu/~jiaxuanl/Merian/spectra/magellan_cosmos_${img_id}_spec.png"
+  }
   
   
-  const _img_dom_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${img_url}' width='180' height='180'/>";
-  const _img_merian_template = '<img class="pic ${marked} ${rot}" title="${title}" src="${img_url}" onmouseover=this.src=&apos;${hsc_url}&apos; onmouseout=this.src=&apos;${img_url}&apos; width="180" height="180"/>';
-  const _linked_img_template = "<figure><a class='plink' href='${link_url}'>${img_dom}</a><figcaption>${img_caption}</a></figcaption></figure>";
+  const _img_dom_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${img_url}' width='220' height='220'/>";
+  const _img_merian_template = '<img class="pic ${marked} ${rot}" title="${title}" src="${img_url}" onmouseover=this.src=&apos;${hsc_url}&apos; onmouseout=this.src=&apos;${img_url}&apos; width="220" height="220"/>';
+  const _linked_img_template = "<div class='row'><div class='column_img'><figure><a class='plink' href='${link_url}'>${img_dom}</a><figcaption>${img_caption}</a></figcaption></figure></div><div class='column_spec'><figure>${spec_dom}<figcaption>z=${redshift},  Re=${re} kpc</a></figcaption></figure></div></div>";
+  const _spec_merian_template = "<img class='pic ${marked} ${rot}' title='${title}' src='${spec_url}' height='230'/>";
   const _rot_classes = ["", "r1", "r2", "r3", "r0f", "r1f", "r2f", "r3f"];
   const _default_layer = $("#default-layer").attr("value");
   
@@ -320,7 +347,15 @@
       _i_dec = _cols_lower.indexOf(key);
       if (_i_ra > -1) break;
     }
-  
+    for (const key of ["z", "redshift", "spec_z", "phot_z", "z_cosmos", "z_spec", "z_phot"]) {
+      _i_redshift = _cols_lower.indexOf(key);
+      if (_i_redshift > -1) break;
+    }
+    for (const key of ["re", "re_phys"]) {
+      _i_re = _cols_lower.indexOf(key);
+      if (_i_re > -1) break;
+    }
+
     if (_i_ra == -1 || _i_dec == -1){  // no header
       if (_cols_lower[_cols.length-1] == "true" || _cols_lower[_cols.length-1] == "false"){
         _has_mark = true;
@@ -368,7 +403,9 @@
       out_merian = _linked_img_template
          .replace("${img_dom}", _img_merian_template)
          .replace("${link_url}", _link_urls[_source])
+         .replace("${spec_dom}", _spec_merian_template)
          .replaceAll('${img_url}', _image_urls[_source])
+         .replace("${spec_url}", _spec_urls[_source])
          .replaceAll('${hsc_url}', _image_urls[_source].replace('_N708.png', '.png'))
          .replaceAll("${img_id}", items[_i_ID])
          .replace(/\${ra}/g, parseFloat(items[_i_ra]).toString())
@@ -376,10 +413,12 @@
          .replace(/\${scale}/g, _scale)
          .replace(/\${size}/g, _size)
          .replace(/\${layer}/g, _layer)
-         .replace("${title}", items.map((item, i) => (_cols[i] + " = " + item.trim())).join("\n"))
-         .replace("${img_caption}", _cols[_i_ID] + "=" + items[_i_ID])
-         .replace("${marked}", mark ? "marked" : "")
-         .replace("${rot}", _do_rand_rot ? _rot_classes[Math.floor(Math.random()*_rot_classes.length)] : "");
+         .replaceAll("${title}", items.map((item, i) => (_cols[i] + " = " + item.trim())).join("\n"))
+         .replace("${redshift}", Number(items[_i_redshift]).toFixed(4).toString())
+         .replace("${re}", Number(items[_i_re]).toFixed(3).toString())
+         .replaceAll("${img_caption}", _cols[_i_ID] + "=" + items[_i_ID])
+         .replaceAll("${marked}", mark ? "marked" : "")
+         .replaceAll("${rot}", _do_rand_rot ? _rot_classes[Math.floor(Math.random()*_rot_classes.length)] : "");
     $(out_merian).appendTo(document.getElementById("list"));
     }
     else out = _linked_img_template
