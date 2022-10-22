@@ -1,0 +1,71 @@
+SIMPLE  =                    T / conforms to FITS standard                      BITPIX  =                    8 / array data type                                NAXIS   =                    0 / number of array dimensions                     EXTEND  =                    T                                                  END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             XTENSION= 'BINTABLE'           / binary table extension                         BITPIX  =                    8 / array data type                                NAXIS   =                    2 / number of array dimensions                     NAXIS1  =                  197 / length of dimension 1                          NAXIS2  =                   13 / length of dimension 2                          PCOUNT  =                    0 / number of group parameters                     GCOUNT  =                    1 / number of groups                               TFIELDS =                   26 / number of table fields                         TTYPE1  = 'name    '                                                            TFORM1  = '14A     '                                                            TTYPE2  = 'host    '                                                            TFORM2  = '7A      '                                                            TTYPE3  = 'RA      '                                                            TFORM3  = 'D       '                                                            TTYPE4  = 'Dec     '                                                            TFORM4  = 'D       '                                                            TTYPE5  = 'Rproj   '                                                            TFORM5  = 'D       '                                                            TTYPE6  = 'gmag    '                                                            TFORM6  = 'D       '                                                            TTYPE7  = 'e_gmag  '                                                            TFORM7  = 'D       '                                                            TTYPE8  = 'rimag   '                                                            TFORM8  = 'D       '                                                            TTYPE9  = 'e_rimag '                                                            TFORM9  = 'D       '                                                            TTYPE10 = 'Mgmag   '                                                            TFORM10 = 'D       '                                                            TTYPE11 = 'MVmag   '                                                            TFORM11 = 'D       '                                                            TTYPE12 = 'e_MVmag '                                                            TFORM12 = 'D       '                                                            TTYPE13 = 'log_m_star'                                                          TFORM13 = 'D       '                                                            TTYPE14 = 'e_log_m_star'                                                        TFORM14 = 'D       '                                                            TTYPE15 = 'mu0V    '                                                            TFORM15 = 'D       '                                                            TTYPE16 = 'e_mu0V  '                                                            TFORM16 = 'D       '                                                            TTYPE17 = 're      '                                                            TFORM17 = 'D       '                                                            TTYPE18 = 'e_re    '                                                            TFORM18 = 'D       '                                                            TTYPE19 = 'ETG     '                                                            TFORM19 = '5A      '                                                            TTYPE20 = 'Confirmed'                                                           TFORM20 = '5A      '                                                            TTYPE21 = 'Psat    '                                                            TFORM21 = 'D       '                                                            TTYPE22 = 'Filt    '                                                            TFORM22 = '2A      '                                                            TTYPE23 = 'Tel     '                                                            TFORM23 = '9A      '                                                            TTYPE24 = 'Bad     '                                                            TFORM24 = '3A      '                                                            TTYPE25 = 'SB_eff_g'                                                            TFORM25 = 'D       '                                                            TTYPE26 = 'dist    '                                                            TFORM26 = 'D       '                                                            END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             dw0050m2444   NGC253 @)&YJÙÿ¿8ºò_ˆî@IŸôôôôö@28QÎÖ∏?πôôôôôö@1Û33333?πôôôôôö¿#\(ı¬è¿#ffffff?πôôôôôö@∏QÎÖ?¿£◊
+=p§@;Ëı¬è\)?¿£◊
+=p§@òÃÃÃÃÕ@\¿     True True ?      grDECALS      @=˘[É¥R@@bî´J?dw0508m3818   NGC1808@SB	ﬁ “¿C'ßÜ¬&Å@`@     @'û∏QÎÖ?¥z·GÆ{@&‹(ı¬è\?∑
+=p£◊
+¿2Æz·H¿2Bè\(ı√?∑
+=p£◊
+@"=p£◊
+=?¿£◊
+=p§@4\(ı¬è\?º(ı¬è\)@«&ffff@Åt     FalseTrue ?      grDECALS      @9Â§ï»£@"îN“é¯dw0852p3347   NGC2683@`¶kP∞Ú|@@ÊE° ¿É@NÊfffff@0^∏QÎÖ?∑
+=p£◊
+@0
+=p£◊
+?∑
+=p£◊
+¿+      ¿+aGÆz·?∑
+=p£◊
+@·GÆz·?¿£◊
+=p§@9û∏QÎÖ?º(ı¬è\)@¢¥ôôôôö@`≥33333FalseTrue ?      grDECALS      @:ˆ•˚πî@"÷yà.*1dw0846p3300   NGC2683@`q·∞â†'@@™ÕûÉ‰@mfffff@2W
+=p£◊?πôôôôôö@1≥33333?πôôôôôö¿'
+=p£◊
+¿'ÃÃÃÃÃÕ?º(ı¬è\)@ÎÖ∏QÏ?¿£◊
+=p§@:µ¬è\(ˆ?¡ÎÖ∏QÏ@õNÃÃÃÃÕ@`¿     True False?ÏÃÃÃÃÃÕgrDECALS      @<Bâîâx@"¿QF`'dw1046p1244   NGC3379@d7ÑM;@){Ùá¸π$@J333333@1‹(ı¬è\?πôôôôôö@1s33333?πôôôôôö¿(îz·GÆ¿)\(ı¬è?πôôôôôö@Ö∏QÎÖ?¿£◊
+=p§@9ôôôôö?¿£◊
+=p§@ô@fffff@\      FalseTrue ?      grDECALS      @;QÊ.>áû@%n-»§ê-dw1050p1221   NGC3379@dSüUõ=@(∏7¥¢3ú@_¨ÃÃÃÃÕ@0ﬁ∏QÎÖ?∑
+=p£◊
+@0Bè\(ı√?∑
+=p£◊
+¿*è\(ı¬è¿+GÆz·H?∑
+=p£◊
+@Ö∏QÎÖ?¿£◊
+=p§@8£◊
+=p§?æ∏QÎÖ∏@óó33333@V      True True ?      grDECALS      @:.¢¸°Ò@%n-»§ê-dw1105p0006   NGC3521@dÕ~êˇó$?Ω≈÷8ÜYK@>LÃÃÃÃÕ@0      ?∑
+=p£◊
+@.ÎÖ∏QÏ?∑
+=p£◊
+¿,z·GÆ{¿-∏QÎÖ?∑
+=p£◊
+@ôôôôôö?¿£◊
+=p§@9Ëı¬è\)?º(ı¬è\)@™´ôôôôö@g33333FalseTrue ?      grDECALS      @:˛gê$t§@&VVˇoÏdw1120p1337   NGC3627@eH($x@+6‚ÎC-@]yôôôôö@,ÎÖ∏QÏ?∑
+=p£◊
+@+z·GÆ{?∑
+=p£◊
+¿/GÆz·H¿0\(ı¬è?∑
+=p£◊
+@!ä=p£◊
+?¿£◊
+=p§@8∞£◊
+=q?º(ı¬è\)@ ôôôôö@ÑñfffffTrue True ?      grDECALS   yes@<çäÊd%∂@$ÒLTõªKdw1123p1342   NGC3627@eY ¿Éo@+mûÉ‰%Ø@glÃÃÃÃÕ@1åÃÃÃÃÕ?∑
+=p£◊
+@1}p£◊
+=?πôôôôôö¿)ôôôôö¿)333333?πôôôôôö@p£◊
+=q?¿£◊
+=p§@9Ëı¬è\)?æ∏QÎÖ∏@òTÃÃÃÃÕ@YÄ     FalseTrue ?      grDECALS      @:˙≥\¿Ã¯@$ÒLTõªKdw1227p0136   NGC4517@g^3úæ‡?˘ò«‚Ç@∏@q£33333@/p£◊
+=q?∑
+=p£◊
+@/Bè\(ı√?∑
+=p£◊
+¿+¬è\(ı√¿+·GÆz·?∑
+=p£◊
+@◊
+=p£◊?¿£◊
+=p§@7Ö∏QÎÖ?º(ı¬è\)@ò©ôôôôö@T”33333FalseTrue ?      grDECALS      @9≠º◊W•‘@ ¢°h˘¨dw1240p3247   NGC4631@g«ÃcÒA @@e+”√a@FÄ     @0QÎÖ∏R?‰z·GÆ{@/kÖ∏QÏ?⁄·GÆz·¿*\(ı¬è¿*«Æz·H?Âp£◊
+=q@∏QÎÖ?¿£◊
+=p§@9‹(ı¬è\?‹ÃÃÃÃÃÕ@°•     @Öd     True True ?      grCFHT        @;NÇpåÖJ@ßQß¨KK208         NGC5236@iÑÃÃÃÃÕ¿=íÚ‰éä@9LÃÃÃÃÕ@.LÃÃÃÃÕ?∑
+=p£◊
+@-333333?∑
+=p£◊
+¿*kÖ∏QÏ¿+\(ı¬è?∑
+=p£◊
+@      ?¿£◊
+=p§@:5¬è\(ˆ?º(ı¬è\)@Ø’     @iÏÃÃÃÃÕTrue True ?      grDECAM    yes@<hoXFïÃ@À∑6I≤ÍSGR           MW     @qΩDg8~¿>ãò«‚ÇA@2≥33333¯      ¯      ¯      ¯      ¯      ¿+      ?”333333@z·GÆ?Ã(ı¬è\)@9333333?”333333@§qfffff@VÛ33333True True ?        MCCONN      ¯      ¯                                                                                                                                                                                                                                                                                                                                     
