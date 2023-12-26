@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#333333" />
   <meta name="author" content="Yao-Yuan Mao" />
   <meta name="creator" content="Yao-Yuan Mao" />
+  <link rel="icon" href="ufo.png">
 
   <title>Galaxy Gallery: Cutout Image Tool</title>
   <meta name="description"
@@ -180,9 +181,10 @@
       <label>
         <select id="layer">
           <option disabled selected value style="display: none;"> --&gt; Choose image source &lt;-- </option>
-          <option value="hsc-dr2" id="default-layer">Hyper Suprime-Cam (HSC) SSP DR2</option>
+          <option value="hsc-dr2">Hyper Suprime-Cam (HSC) SSP DR2</option>
           <option value="hsc-dr2:merian">HSC + Merian</option>
-          <option value="ls-dr9">Legacy Surveys DR9</option>
+          <option value="ls-dr10" id="default-layer">Legacy Surveys DR10</option>
+          <option value="ls-dr9" id="default-layer">Legacy Surveys DR9</option>
           <option value="ls-dr9-model">Legacy Surveys DR9 Model</option>
           <option value="ls-dr9-resid">Legacy Surveys DR9 Residual</option>
           <option value="unwise-neo6">unWISE NEO6 12um Dust Map</option>
@@ -285,7 +287,7 @@
   const escapeHtml = function(s) {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
-  
+
   const loadFile = function(filePath) {
     var result = null;
     var xmlhttp = new XMLHttpRequest();
@@ -393,7 +395,8 @@
          .replace(/\${size}/g, _size)
          .replace(/\${layer}/g, _layer)
          .replace("${title}", items.map((item, i) => (_cols[i] + " = " + item.trim())).join("\n"))
-         .replace("${img_caption}", _cols[_i_ID] + "=" + items[_i_ID])
+         <!-- .replace("${img_caption}", _cols[_i_ID] + "=" + items[_i_ID]) -->
+         .replace("${img_caption}", items[_i_ID])
          .replace("${marked}", mark ? "marked" : "")
          .replace("${rot}", _do_rand_rot ? _rot_classes[Math.floor(Math.random()*_rot_classes.length)] : "");
     $(out).appendTo(document.getElementById("list"));
@@ -414,7 +417,9 @@
     _size = parseFloat($("#scale").val()).toFixed(7).replace(/0+$/, '');
     _scale = (parseFloat($("#scale").val()) / 3).toFixed(7).replace(/0+$/, '');
     if (!layer_source[0]) $("#default-layer").prop("selected", true);
-  
+    
+    const url_path = window.location.hash.substr(1);
+    if (url_path != "") $("#catdir").val(url_path);
     const _file_path = "/~jiaxuanl/galary/catalogs/" + $("#catdir").val()
     const _input_from_file = ($("#input_source").val() == "file");
   
@@ -484,6 +489,7 @@
     $("#generate_output").prop("disabled", true);
   }
   
+  run();
   $("form").on("submit", (event) => {event.preventDefault();});
   $("#generate_output").on("click", record_output);
   $("#load_cat").on("click", run);
