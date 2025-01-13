@@ -36,7 +36,7 @@
   }
   #input{
     width: calc(100% - 0.8em);
-    height: 150px;
+    height: 120px;
     margin: 0 0.4em;
   }
   #layer, #scale{
@@ -142,6 +142,15 @@
   .closebtn:hover {
     color: black;
   }
+
+  #generate_output {
+    margin-top: 10px; /* Adjust the value as needed */
+  }
+
+  .pure-form {
+    margin-top: 0px;  /* Reduce the top margin */
+    margin-bottom: -10px; /* Reduce the bottom margin */
+}
   
   </style>
 </head>
@@ -164,12 +173,6 @@
       2071 225.2647408  0.4846544
       4032 350.2807156  1.4018211
       4188  355.085029 -0.1462085
-      4221  30.0980674 -1.4120926
-      4363 176.3969337 -1.8543287
-      5051 150.4133053 -0.1191215
-      6675  30.2754303 -1.3742687
-      11959  128.821372 -1.6477051
-      12814  355.085259 -0.1464083
   </textarea></p>
     <div class="options">
       <label>
@@ -215,11 +218,11 @@
 </form>
 </div>
 
-<div class="alert">
+<!-- <div class="alert">
   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
   <b>Note:</b> If you choose "HSC + Merian", the galary will display HSC <tt>griz</tt> + Merian <tt>N708</tt> composite images. 
   Hovering over the image will display color images with HSC <tt>griz</tt> only. <tt>N708</tt> is highlighted in purple-ish color. 
-</div>
+</div> -->
 
 <div id="list"></div>
 </div>
@@ -310,7 +313,7 @@
   
     const _cols_lower = _cols.map(col => col.toLowerCase());
   
-    for (const key of ["id", "index", "ind", "idx", "indices", "viz-id"]) {
+    for (const key of ["name", "id", "index", "ind", "idx", "indices", "viz-id"]) {
       _i_ID = _cols_lower.indexOf(key);
       if (_i_ID > -1) break;
     }
